@@ -11,14 +11,13 @@
 <body>
     <nav class="navbar">
         <div class="logo">
-            <img src="/logo.png" alt="ArthSathi" class="logo-img">
+            <img src="/images/ArthSathilogo.jpeg" alt="ArthSathi" class="logo-img">
             <span class="logo-text">arthsathi</span>
         </div>
         <div class="nav-links">
             <a href="/" class="<%= path === '/' ? 'active' : '' %>">HOME</a>
             <a href="/about" class="<%= path === '/about' ? 'active' : '' %>">ABOUT US</a>
             <a href="/news" class="<%= path === '/news' ? 'active' : '' %>">NEWS</a>
-            <a href="/contributors" class="<%= path === '/contributors' ? 'active' : '' %>">CONTRIBUTORS</a>
             <a href="/contact" class="<%= path === '/contact' ? 'active' : '' %>">CONTACT</a>
             <a href="/help" class="<%= path === '/help' ? 'active' : '' %>">HELP</a>
             <div class="dropdown">
@@ -32,9 +31,14 @@
                 </div>
             </div>
         </div>
+        <div class="nav-buttons">
+            <a href="/dashboard" class="nav-btn primary-btn">
+                <i class="fas fa-chart-line"></i>
+                Open Dashboard
+            </a>
+        </div>
         <div class="auth-buttons">
-            <button class="login-btn">LOGIN/REGISTER</button>
-            <button class="theme-toggle">🌙</button>
+
         </div>
     </nav>
 </body>

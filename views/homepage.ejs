@@ -2,19 +2,176 @@
 
 <main class="hero-section">
     <div class="hero-content">
-        <h1 class="welcome-text">WELCOME TO ARTHSATHI</h1>
+        <h1 class="welcome-text">
+            <span class="typed-text"></span>
+        </h1>
         <p class="hero-description">
-            Wanna learn how to grow your money to become rich? We have made becoming a stock
-            market Guru easy with our AI-powered finance advisor - <span class="highlight">ArthSathi</span> 💡
+            Your trusted companion in the world of finance. Get expert insights, real-time market updates, and personalized financial advice.
         </p>
         <div class="cta-buttons">
-            <button class="chat-btn">Chat with ArthSathi 💬</button>
-            <button class="share-btn">Share Experience</button>
+            <a href="/dashboard" class="dashboard-btn">
+                <i class="fas fa-chart-line"></i> Open Dashboard
+            </a>
+            <button class="chat-btn" id="startChatBtn">
+                <i class="fas fa-comments"></i> Start Chat
+            </button>
+            <button class="share-btn">
+                <i class="fas fa-share-alt"></i> Share Experience
+            </button>
         </div>
     </div>
-    <div class="hero-image">
-        <img src="/dashboard-mockup.png" alt="ArthSathi Dashboard" class="dashboard-img">
-    </div>
+    
 </main>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Chat Interface -->
+<div class="chat-container" id="chatContainer">
+    <div class="chat-header">
+        <h3>Financial Assistant</h3>
+        <button class="close-chat" id="closeChat">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <div class="message bot">
+            <div class="message-content">
+                Hello! I'm your financial assistant. How can I help you today?
+            </div>
+        </div>
+    </div>
+    <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Ask about stocks, investments, or financial advice...">
+        <button id="sendMessage">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+<script>
+    // Typing effect
+    document.addEventListener('DOMContentLoaded', function() {
+        const typed = new Typed('.typed-text', {
+            strings: [
+                'Welcome to ArthSathi',
+                'Your Financial Companion',
+                'Smart Investment Solutions',
+                'Real-time Market Updates',
+                'Expert Financial Advice'
+            ],
+            typeSpeed: 50,
+            backSpeed: 30,
+            backDelay: 2000,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+
+        // Toast functionality
+        function showToast(message, duration = 3000) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+                <i class="fas fa-info-circle"></i>
+                <span class="toast-message">${message}</span>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Trigger reflow
+            toast.offsetHeight;
+            
+            // Show toast
+            toast.classList.add('show');
+            
+            // Remove toast after duration
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toastContainer.removeChild(toast);
+                }, 300);
+            }, duration);
+        }
+
+        // Chat functionality
+        const chatContainer = document.getElementById('chatContainer');
+        const startChatBtn = document.getElementById('startChatBtn');
+        const closeChatBtn = document.getElementById('closeChat');
+        const userInput = document.getElementById('userInput');
+        const sendMessageBtn = document.getElementById('sendMessage');
+        const chatMessages = document.getElementById('chatMessages');
+
+        // Toggle chat
+        function toggleChat() {
+            chatContainer.classList.toggle('active');
+            if (chatContainer.classList.contains('active')) {
+                userInput.focus();
+            }
+        }
+
+        // Event listeners
+        startChatBtn.addEventListener('click', toggleChat);
+        closeChatBtn.addEventListener('click', toggleChat);
+
+        // Send message
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, true);
+            userInput.value = '';
+
+            // Show typing indicator
+            showTypingIndicator();
+
+            // Simulate bot response (replace with actual API call)
+            setTimeout(() => {
+                removeTypingIndicator();
+                addMessage('I understand you\'re asking about ' + message + '. How can I help you with that?');
+            }, 1000);
+        }
+
+        // Add message to chat
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            messageDiv.innerHTML = `<div class="message-content">${message}</div>`;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Show typing indicator
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot typing';
+            typingDiv.innerHTML = '<div class="message-content">Typing...</div>';
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Remove typing indicator
+        function removeTypingIndicator() {
+            const typingIndicator = chatMessages.querySelector('.typing');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        // Event listeners for sending messages
+        sendMessageBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Chat button click handler
+        startChatBtn.addEventListener('click', () => {
+            showToast('Chatbot coming soon! Stay tuned for updates.');
+        });
+    });
+</script>
 
 <%- include('partials/footer') %>

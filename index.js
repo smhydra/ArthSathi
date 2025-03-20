@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const port = 5000;
 const axios = require('axios');
+const chatRouter = require('./routes/chat');
 
 // Set EJS as templating engine
 app.set('view engine', 'ejs');
@@ -74,6 +75,22 @@ app.get('/register', (req, res) => {
 
 app.get('/explore', (req, res) => {
     res.render('explore', { title: 'Explore - ArthSathi' });
+});
+
+// Add chat route
+app.use(chatRouter);
+
+// Add dashboard routes
+app.get('/dashboard', (req, res) => {
+    res.render('data', { 
+        title: 'Market Data - ArthSathi'
+    });
+});
+
+app.get('/dashboard/financial-data', (req, res) => {
+    res.render('financial_data', { 
+        title: 'Financial Data - ArthSathi'
+    });
 });
 
 // Error handler for 404

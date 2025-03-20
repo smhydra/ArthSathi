@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Today - Financial Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+
+    <div class="dashboard-container">
+        <%- include('partials/sidebar') %>
+        
+        <div class="main-content">
+            <a href="/" class="home-button">
+                <i class="fas fa-home"></i>
+                Home
+            </a>
+
+            <div class="market-overview">
+                <h2>Market Today</h2>
+                <p>Real-time market data and analysis</p>
+                
+                <!-- Rest of the market content -->
+                <div class="market-filters">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search stocks...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="filter-options">
+                        <select>
+                            <option value="all">All Sectors</option>
+                            <option value="tech">Technology</option>
+                            <option value="finance">Finance</option>
+                            <option value="healthcare">Healthcare</option>
+                        </select>
+                        <select>
+                            <option value="all">All Exchanges</option>
+                            <option value="nse">NSE</option>
+                            <option value="bse">BSE</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="market-grid">
+                    <% stocks.forEach(function(stock) { %>
+                        <div class="market-card">
+                            <div class="card-header">
+                                <h3><%= stock.symbol %></h3>
+                                <span class="trend <%= stock.trend %>"><%= stock.change %></span>
+                            </div>
+                            <div class="card-body">
+                                <p class="price"><%= stock.price %></p>
+                                <p class="change"><%= stock.change %></p>
+                                <div class="stock-details">
+                                    <span class="volume">Vol: <%= stock.volume %></span>
+                                    <span class="sector"><%= stock.sector %></span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="watchlist-btn">
+                                    <i class="fas fa-star"></i>
+                                    Add to Watchlist
+                                </button>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+            
+            <div class="market-trends">
+                <h2>Market Trends</h2>
+                <div class="trends-grid">
+                    <div class="trend-card">
+                        <h3>Top Gainers</h3>
+                        <div class="trend-list">
+                            <% topGainers.forEach(function(stock) { %>
+                                <div class="trend-item">
+                                    <span class="symbol"><%= stock.symbol %></span>
+                                    <span class="price"><%= stock.price %></span>
+                                    <span class="change positive"><%= stock.change %></span>
+                                </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                    <div class="trend-card">
+                        <h3>Top Losers</h3>
+                        <div class="trend-list">
+                            <% topLosers.forEach(function(stock) { %>
+                                <div class="trend-item">
+                                    <span class="symbol"><%= stock.symbol %></span>
+                                    <span class="price"><%= stock.price %></span>
+                                    <span class="change negative"><%= stock.change %></span>
+                                </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.setAttribute('data-theme', 
+                document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+            );
+        });
+
+        // Initialize with light theme
+        document.body.setAttribute('data-theme', 'light');
+
+        // Watchlist functionality
+        const watchlistBtns = document.querySelectorAll('.watchlist-btn');
+        watchlistBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('active');
+                const icon = btn.querySelector('i');
+                icon.classList.toggle('fas');
+                icon.classList.toggle('far');
+            });
+        });
+    </script>
+</body>
+</html> 

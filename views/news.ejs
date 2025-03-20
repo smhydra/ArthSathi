@@ -1,0 +1,41 @@
+<%- include('partials/header') %>
+
+<section class="news-section">
+    <div class="container">
+        <h1>Latest Financial News</h1>
+        <div class="news-filters">
+            <button class="filter-btn active" data-category="all">All News</button>
+            <button class="filter-btn" data-category="stock">Stock Market</button>
+            <button class="filter-btn" data-category="crypto">Cryptocurrency</button>
+            <button class="filter-btn" data-category="forex">Forex</button>
+        </div>
+        <div class="news-container">
+            <div class="news-scroll">
+                <% if (news && news.length > 0) { %>
+                    <% news.forEach(article => { %>
+                        <div class="news-card" data-category="<%= article.category %>">
+                            <div class="news-image">
+                                <img src="<%= article.image %>" alt="<%= article.title %>">
+                            </div>
+                            <div class="news-content">
+                                <span class="news-category"><%= article.category %></span>
+                                <h3><%= article.title %></h3>
+                                <p><%= article.description %></p>
+                                <div class="news-meta">
+                                    <span class="news-date"><%= article.date %></span>
+                                    <a href="<%= article.url %>" target="_blank" class="read-more">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="no-news">
+                        <p>No news available at the moment.</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('partials/footer') %> 

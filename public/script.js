@@ -1,14 +1,24 @@
 // Theme toggle functionality
 const themeToggle = document.querySelector('.theme-toggle');
-let isDarkMode = true;
+const root = document.documentElement;
+
+// Check for saved theme preference
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.body.setAttribute('data-theme', savedTheme);
+updateThemeIcon(savedTheme);
 
 themeToggle.addEventListener('click', () => {
-    isDarkMode = !isDarkMode;
-    themeToggle.textContent = isDarkMode ? '🌙' : '☀️';
-    document.body.style.background = isDarkMode 
-        ? 'linear-gradient(135deg, #4338CA, #6366F1)'
-        : 'linear-gradient(135deg, #60A5FA, #93C5FD)';
+    const currentTheme = document.body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    document.body.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon(newTheme);
 });
+
+function updateThemeIcon(theme) {
+    themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
+}
 
 // Smooth scroll for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -51,29 +61,4 @@ window.addEventListener('scroll', () => {
 
     heroContent.style.transform = `translateY(${scrollPosition * 0.2}px)`;
     heroImage.style.transform = `translateY(${scrollPosition * 0.1}px)`;
-});
-
-// News filtering functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const newsCards = document.querySelectorAll('.news-card');
-
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Remove active class from all buttons
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            // Add active class to clicked button
-            button.classList.add('active');
-
-            const category = button.dataset.category;
-
-            newsCards.forEach(card => {
-                if (category === 'all' || card.dataset.category === category) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    });
 }); 

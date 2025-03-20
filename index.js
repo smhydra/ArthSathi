@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = 5000;
 const axios = require('axios');
 
 // Set EJS as templating engine
@@ -26,9 +26,9 @@ app.get('/about', (req, res) => {
 
 app.get('/news', async (req, res) => {
     try {
-        // Replace with your News API key
-        const apiKey = 'YOUR_NEWS_API_KEY';
-        const response = await axios.get(`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=${apiKey}`);
+        const apiKey = '66d78dd09e6443d0b9f9bd5f6ae8a3d4';
+        // Updated query for Indian business news
+        const response = await axios.get(`https://newsapi.org/v2/top-headlines?country=in&category=business&q=india&sortBy=publishedAt&language=en&apiKey=${apiKey}`);
         
         const news = response.data.articles.map(article => ({
             title: article.title,
@@ -40,13 +40,13 @@ app.get('/news', async (req, res) => {
         }));
 
         res.render('news', { 
-            title: 'News - ArthSathi',
+            title: 'Indian Business News - ArthSathi',
             news: news
         });
     } catch (error) {
         console.error('Error fetching news:', error);
         res.render('news', { 
-            title: 'News - ArthSathi',
+            title: 'Indian Business News - ArthSathi',
             news: []
         });
     }
